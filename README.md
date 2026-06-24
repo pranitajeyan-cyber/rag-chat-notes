@@ -106,6 +106,39 @@ Open the URL shown in terminal (usually `http://localhost:8501`).
 
 ---
 
+## 🎮 How to Use (Step by Step)
+
+### Step 1: Upload Documents
+Look at the **sidebar (left panel)** → click **"Browse files"** → select your PDF, TXT, or Markdown files. You can upload multiple at once.
+
+### Step 2: Wait for Indexing
+You'll see a spinner "Indexing documents..." followed by a green success message like:
+> ✅ Indexed 15 chunks from 2 file(s)
+
+Your files are now stored in the vector database.
+
+### Step 3: Verify Your Documents
+The sidebar shows all indexed documents under **"Indexed Documents"**. You can delete any document by clicking **✕** next to it.
+
+### Step 4: Ask a Question
+Type your question in the **chat input box** at the bottom of the page and press Enter. For example:
+
+> What is transfer learning in machine learning?
+
+### Step 5: Read the Answer
+The AI responds using **only your uploaded documents**. Every answer shows **source badges** — small green labels indicating which document(s) provided the information.
+
+### Step 6: Tweak Settings (Optional)
+In the sidebar, adjust **"Chunks to retrieve"** — higher values (6-10) give more context but may include irrelevant info. Lower values (1-3) are stricter.
+
+### Quick Test
+The repo includes `docs/sample.txt` with ML fundamentals. Upload it and ask:
+- "What are the types of machine learning?"
+- "What is overfitting?"
+- "Explain the bias-variance tradeoff"
+
+---
+
 ## 📁 Project Structure
 
 ```
