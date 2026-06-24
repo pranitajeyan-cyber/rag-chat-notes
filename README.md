@@ -64,45 +64,50 @@ User Question
 
 ## 🚀 Quick Start
 
-### 1. Clone & Setup
+### 🔧 Prerequisites
+- [Download Python 3.9+](https://www.python.org/downloads/)
+- [Download Git](https://git-scm.com/downloads) (or just download ZIP from GitHub)
 
+### 1. Download the project
 ```bash
 git clone https://github.com/pranitajeyan-cyber/rag-chat-notes.git
 cd rag-chat-notes
 ```
+Or download ZIP from [github.com/pranitajeyan-cyber/rag-chat-notes](https://github.com/pranitajeyan-cyber/rag-chat-notes)
 
 ### 2. Install Dependencies
-
 ```bash
 pip install -r requirements.txt
 ```
 
 ### 3. Set Up LLM (pick one)
 
-#### Option A: Google Gemini (recommended — free tier)
-1. Get a free API key from [aistudio.google.com/apikey](https://aistudio.google.com/apikey)
-2. Copy `.env.example` to `.env` and add your key:
+#### Option A: Google Gemini ✅ (recommended — free tier)
+1. Get a **free API key** → [aistudio.google.com/apikey](https://aistudio.google.com/apikey)
+2. Create `.env` file from example and add your key:
 ```bash
-cp .env.example .env
-# Edit .env: GEMINI_API_KEY=your-key-here
+copy .env.example .env
 ```
+3. Open `.env` in Notepad and set: `GEMINI_API_KEY=your-key-here`
 
-#### Option B: Groq (free, very fast)
-1. Get a free API key from [console.groq.com](https://console.groq.com/keys)
-2. Set in `.env`: `LLM_PROVIDER=groq` and `GROQ_API_KEY=your-key`
+#### Option B: Groq 🚀 (free, very fast)
+1. Get a **free API key** → [console.groq.com/keys](https://console.groq.com/keys)
+2. In `.env` set: `LLM_PROVIDER=groq` and `GROQ_API_KEY=your-key`
 
-#### Option C: Ollama (fully local, requires install)
-1. Install [Ollama](https://ollama.com)
-2. Pull a model: `ollama pull llama3.2`
-3. Set in `.env`: `LLM_PROVIDER=ollama`
+#### Option C: Ollama 💻 (fully local, no API key needed)
+1. Download & install → [ollama.com](https://ollama.com)
+2. Open terminal and run: `ollama pull llama3.2`
+3. In `.env` set: `LLM_PROVIDER=ollama`
 
 ### 4. Run the App
-
 ```bash
 streamlit run app.py
 ```
+Your browser will open at [http://localhost:8501](http://localhost:8501) 🎉
 
-Open the URL shown in terminal (usually `http://localhost:8501`).
+---
+
+## 🎮 How to Use
 
 ---
 
