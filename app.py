@@ -237,15 +237,21 @@ if prompt := st.chat_input("Ask a question about your documents..."):
 # Empty state
 if not st.session_state.messages:
     st.markdown("---")
-    col1, col2, col3 = st.columns([1, 2, 1])
-    with col2:
+    c1, c2, c3 = st.columns([1, 3, 1])
+    with c2:
         st.markdown(
             """
-            <div style="text-align:center; padding:3rem 1rem; color:#666;">
-                <h2 style="color:#1a237e;">📖 Ready to learn</h2>
-                <p>Upload documents in the sidebar,<br>then ask questions here.</p>
+            <div style="text-align:center; padding:2rem 1rem; color:#666;">
+                <h2 style="color:#1a237e;">📖 How to Use</h2>
+                <div style="text-align:left; max-width:500px; margin:0 auto;">
+                <p><strong>Step 1:</strong> Upload your documents (PDF, TXT, or Markdown) in the <strong>sidebar → left panel</strong></p>
+                <p><strong>Step 2:</strong> Wait for indexing to complete — you'll see a success message</p>
+                <p><strong>Step 3:</strong> Type a question in the chat box below and press Enter</p>
+                <p><strong>Step 4:</strong> Read the answer — it's generated from your documents only</p>
+                </div>
+                <hr style="margin:2rem auto; width:50%;">
                 <p style="font-size:0.9rem; color:#999;">
-                    Supports PDF, TXT, and Markdown files
+                Supports PDF, TXT, and Markdown files
                 </p>
             </div>
             """,
