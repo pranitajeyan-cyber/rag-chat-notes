@@ -62,48 +62,78 @@ User Question
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Quick Start — 3 Ways to Run
 
-### 🔧 Prerequisites
-- [Download Python 3.9+](https://www.python.org/downloads/)
-- [Download Git](https://git-scm.com/downloads) (or just download ZIP from GitHub)
+### 🐍 Option 1: Python (recommended for development)
 
-### 1. Download the project
+**Prerequisites:** [Download Python 3.9+](https://www.python.org/downloads/)
+
 ```bash
+# Download the project
 git clone https://github.com/pranitajeyan-cyber/rag-chat-notes.git
 cd rag-chat-notes
-```
-Or download ZIP from [github.com/pranitajeyan-cyber/rag-chat-notes](https://github.com/pranitajeyan-cyber/rag-chat-notes)
 
-### 2. Install Dependencies
-```bash
+# Install dependencies (one-time)
 pip install -r requirements.txt
+
+# Set up free API key (pick one)
 ```
 
-### 3. Set Up LLM (pick one)
+| Provider | Get API Key | Then in `.env` set |
+|---|---|---|
+| **Gemini** ✅ | [aistudio.google.com/apikey](https://aistudio.google.com/apikey) | `GEMINI_API_KEY=your-key` |
+| **Groq** 🚀 | [console.groq.com/keys](https://console.groq.com/keys) | `LLM_PROVIDER=groq` and `GROQ_API_KEY=your-key` |
+| **Ollama** 💻 | [ollama.com](https://ollama.com) + `ollama pull llama3.2` | `LLM_PROVIDER=ollama` |
 
-#### Option A: Google Gemini ✅ (recommended — free tier)
-1. Get a **free API key** → [aistudio.google.com/apikey](https://aistudio.google.com/apikey)
-2. Create `.env` file from example and add your key:
 ```bash
+# Create .env file (edit with your key)
 copy .env.example .env
-```
-3. Open `.env` in Notepad and set: `GEMINI_API_KEY=your-key-here`
 
-#### Option B: Groq 🚀 (free, very fast)
-1. Get a **free API key** → [console.groq.com/keys](https://console.groq.com/keys)
-2. In `.env` set: `LLM_PROVIDER=groq` and `GROQ_API_KEY=your-key`
-
-#### Option C: Ollama 💻 (fully local, no API key needed)
-1. Download & install → [ollama.com](https://ollama.com)
-2. Open terminal and run: `ollama pull llama3.2`
-3. In `.env` set: `LLM_PROVIDER=ollama`
-
-### 4. Run the App
-```bash
+# Run the app
 streamlit run app.py
 ```
-Your browser will open at [http://localhost:8501](http://localhost:8501) 🎉
+
+Browser opens at [http://localhost:8501](http://localhost:8501) 🎉
+
+---
+
+### 🐳 Option 2: Docker (works on Windows/Mac/Linux — no Python needed)
+
+**Prerequisites:** [Download Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+```bash
+# Download the project
+git clone https://github.com/pranitajeyan-cyber/rag-chat-notes.git
+cd rag-chat-notes
+
+# Create .env with your API key
+copy .env.example .env
+# Edit .env and add your GEMINI_API_KEY
+
+# One command to build & run
+docker compose up -d
+```
+
+Open [http://localhost:8501](http://localhost:8501) 🎉
+
+To stop: `docker compose down`
+
+---
+
+### 🪟 Option 3: Windows .exe (double-click to run — no install needed)
+
+**Prerequisites:** [Download Python 3.9+](https://www.python.org/downloads/)
+
+```bash
+# Build the .exe (one-time, takes 2-5 min)
+python scripts/build_exe.py
+```
+
+The `.exe` will be at `dist/rag-chat-notes/rag-chat-notes.exe`
+
+- **Size:** ~300-400 MB (bundles Python + all libraries)
+- **To run:** Double-click the .exe, your browser opens automatically
+- **Windows only** (Mac/Linux users use Docker instead)
 
 ---
 
