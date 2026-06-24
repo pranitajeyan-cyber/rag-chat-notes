@@ -9,13 +9,15 @@ Built as an M.Tech CSE project. Works with free APIs (Gemini, Groq) or fully loc
 
 ## ✨ Features
 
-- **Document Ingestion** — Upload PDF, TXT, or Markdown files
-- **Smart Chunking** — Documents split into overlapping chunks for better retrieval
-- **Vector Search** — Finds the most relevant chunks using sentence embeddings (runs locally, free)
-- **LLM-Powered Answers** — Generates answers using Gemini, Groq, or local Ollama
-- **Source Citations** — Every answer shows which documents were used
-- **Beautiful UI** — Clean chat interface with dark sidebar, source badges, and document management
-- **Document Management** — View, delete indexed documents from the sidebar
+- **📄 File Upload** — Upload PDF, TXT, or Markdown files
+- **🌐 URL Scraper** — Paste any webpage link → fetches and indexes the content
+- **🎬 YouTube Transcripts** — Paste a video link → indexes the transcript automatically
+- **💬 Chat History** — Conversations auto-save. Browse, load, or delete past chats
+- **🧠 Smart Chunking** — Documents split into overlapping chunks for better retrieval
+- **🔍 Vector Search** — Finds the most relevant chunks using sentence embeddings (runs locally, free)
+- **🤖 LLM-Powered Answers** — Generates answers using Gemini, Groq, or local Ollama
+- **🏷️ Source Citations** — Every answer shows which documents/sources were used
+- **🎨 Clean UI** — Chat interface with dark sidebar, source badges, and document management
 
 ---
 
@@ -135,16 +137,16 @@ The `.exe` will be at `dist/rag-chat-notes/rag-chat-notes.exe`
 - **To run:** Double-click the .exe, your browser opens automatically
 - **Windows only** (Mac/Linux users use Docker instead)
 
----
-
-## 🎮 How to Use
-
----
-
 ## 🎮 How to Use (Step by Step)
 
-### Step 1: Upload Documents
-Look at the **sidebar (left panel)** → click **"Browse files"** → select your PDF, TXT, or Markdown files. You can upload multiple at once.
+### Step 1: Add Content
+You have **3 ways** to add content:
+
+| Method | How | Sidebar section |
+|---|---|---|
+| **Upload files** | Click "Browse files" → select PDF, TXT, or MD | 📤 Upload Files |
+| **Paste a URL** | Paste any article/blog link → click "Fetch Webpage" | 🌐 Add from Link |
+| **YouTube video** | Paste a YouTube link → click "Fetch YouTube Transcript" | 🌐 Add from Link |
 
 ### Step 2: Wait for Indexing
 You'll see a spinner "Indexing documents..." followed by a green success message like:
@@ -166,11 +168,20 @@ The AI responds using **only your uploaded documents**. Every answer shows **sou
 ### Step 6: Tweak Settings (Optional)
 In the sidebar, adjust **"Chunks to retrieve"** — higher values (6-10) give more context but may include irrelevant info. Lower values (1-3) are stricter.
 
+### Step 7: Resume Later (Chat History)
+All conversations **auto-save**. Open the sidebar → **💬 Chat History** → click any past chat to load it. Click **➕ New Chat** to start fresh.
+
 ### Quick Test
-The repo includes `docs/sample.txt` with ML fundamentals. Upload it and ask:
+Try all 3 content sources:
+
+**Files:** Upload `docs/sample.txt` (ML fundamentals) and ask:
 - "What are the types of machine learning?"
 - "What is overfitting?"
 - "Explain the bias-variance tradeoff"
+
+**URL:** Paste a Wikipedia article link and ask questions about it
+
+**YouTube:** Paste any lecture video link and ask about the content
 
 ---
 
@@ -180,13 +191,18 @@ The repo includes `docs/sample.txt` with ML fundamentals. Upload it and ask:
 rag-chat-notes/
 ├── app.py              # Streamlit UI (main entry point)
 ├── config.py           # Configuration (reads .env)
-├── ingest.py           # Document loading, chunking, embedding, storage
+├── ingest.py           # Document + URL + YouTube ingestion pipeline
 ├── rag_engine.py       # Retrieval + generation pipeline
 ├── requirements.txt    # Python dependencies
+├── Dockerfile          # Build Docker image
+├── docker-compose.yml  # One-command Docker setup
 ├── .env.example        # Environment template
 ├── .gitignore
+├── .dockerignore
 ├── docs/               # Sample documents to try
 │   └── sample.txt
+├── scripts/
+│   └── build_exe.py    # Build Windows .exe
 └── README.md
 ```
 
@@ -225,7 +241,6 @@ All settings via `.env` file:
 - [ ] Chat history persistence
 - [ ] Document summarization
 - [ ] Citation highlighting (exact spans in source)
-- [ ] Docker deployment
 
 ---
 
