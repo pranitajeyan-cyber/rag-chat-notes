@@ -1,19 +1,63 @@
 """
 Document Ingestion Pipeline
 ============================
-Loads documents (PDF, TXT), splits them into chunks,
-creates embeddings, and stores in ChromaDB.
+Loads documents (PDF, TXT, MD), URLs, and YouTube transcripts,
+splits them into chunks, creates embeddings, and stores in ChromaDB.
 """
 
 import os
+import re
 from pathlib import Path
 
+import trafilatura
+from youtube_transcript_api import YouTubeTranscriptApi
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import PyPDFLoader, TextLoader
 from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_core.documents import Document
 from langchain_chroma import Chroma
 
 import config
+
+
+def extract_youtube_id(url):
+    """Extract video ID from various YouTube URL formats."""
+    patterns = [
+        r"(?:youtube\.com/watch\?v=)([\w-]+)",
+        r"(?:youtu\.be/)([\w-]+)",
+        r"(?:youtube\.com/embed/)([\w-]+)",
+        r"(?:youtube\.com/shorts/)([\w-]+)",
+    ]
+    for p in patterns:
+        match = re.search(p, url)
+        if match:
+            return match.group(1)
+    return None
+
+
+def is_youtube_url(url):
+    """Check if URL is a YouTube link."""
+    return extract_youtube_id(url) is not None
+
+
+def fetch_youtube_transcript(url):
+    """Fetch transcript from a YouTube video. Returns (text, title)."""
+    video_id = extract_youtube_id(url)
+    transcript_list = YouTubeTranscriptApi.get_transcript(video_id)
+    text = " ".join(item["text"] for item in transcript_list)
+    # Try to get video title from the URL (or use a placeholder)
+    title = f"YouTube Video ({video_id})"
+    return text, title
+
+
+def fetch_webpage_text(url):
+    """Fetch and extract clean text from a webpage. Returns text or None."""
+    downloaded = trafilatura.fetch_url(url)
+    if downloaded:
+        text = trafilatura.extract(downloaded)
+        if text:
+            return text
+    return None
 
 
 def load_documents(file_paths):
@@ -81,6 +125,44 @@ def index_documents(file_paths):
     vector_store.add_documents(chunks)
 
     return len(chunks)
+
+
+def index_text(text, source_name):
+    """Index raw text directly (for URLs, YouTube, etc.)."""
+    if not text or not text.strip():
+        return 0
+    doc = Document(page_content=text, metadata={"source": source_name})
+    chunks = chunk_documents([doc])
+    for chunk in chunks:
+        chunk.metadata["source"] = source_name
+    vector_store = get_vector_store()
+    vector_store.add_documents(chunks)
+    return len(chunks)
+
+
+def ingest_from_url(url):
+    """
+    Detect URL type (YouTube or webpage) and index content.
+    Returns (chunks_count, source_name) or (0, error_message).
+    """
+    if is_youtube_url(url):
+        try:
+            text, title = fetch_youtube_transcript(url)
+            source = f"YouTube: {title[:40]}"
+            count = index_text(text, source)
+            return count, source
+        except Exception as e:
+            return 0, f"YouTube error: {str(e)}"
+
+    try:
+        text = fetch_webpage_text(url)
+        if text:
+            source = url.split("//")[1].split("/")[0][:40]
+            count = index_text(text, source)
+            return count, source
+        return 0, "Could not extract text from this URL"
+    except Exception as e:
+        return 0, f"URL error: {str(e)}"
 
 
 def list_indexed_sources():
